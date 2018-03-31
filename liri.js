@@ -56,7 +56,7 @@ function spotifyCommand () {
     var trackName;
     // If the user does not type a search value, default to ace of base - the sign.
     if(process.argv[3] === undefined){
-        trackName = "the sign"
+        trackName = "ace the sign"
     } else {
         trackName = process.argv[3];
     };
@@ -66,9 +66,11 @@ function spotifyCommand () {
         if (err) {
         return console.log("Error occurred: "+ err); 
         }
-        
-        console.log(data); 
-        
+        console.log("Your search is complete! Let's take a look...")
+        console.log("Artist: " + data.tracks.items[0].artists[0].name); 
+        console.log("Song Name: " + data.tracks.items[0].name); 
+        console.log("Preview Link: " + data.tracks.items[0].href); 
+        console.log("Album: " + data.tracks.items[0].album.name); 
     });
 };
 
