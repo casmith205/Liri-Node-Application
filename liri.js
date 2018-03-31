@@ -54,10 +54,10 @@ function twitterCommand() {
 function spotifyCommand() {
     var trackName;
     // If the user does not type a search value, default to ace of base - the sign.
-    if (process.argv[3] === undefined) {
+    if (process.argv[3] === undefined && randomSearch === undefined) {
         trackName = "ace the sign"
-    } else if (search !== undefined) {
-        trackName = search 
+    } else if (randomSearch !== undefined) {
+        trackName = randomSearch 
     } else {
         trackName = process.argv[3];
     };
@@ -85,10 +85,10 @@ function spotifyCommand() {
 //    * Plot of the movie.
 //    * Actors in the movie.
 function movieCommand() {
-    if (process.argv[3] === undefined) {
+    if (process.argv[3] === undefined && randomSearch === undefined) {
         title = "Mr. Nobody"
-    } else if (search !== undefined) {
-        title = search 
+    } else if (randomSearch !== undefined) {
+        title = randomSearch
     } else {
         title = process.argv[3];
     };
@@ -113,8 +113,8 @@ function movieCommand() {
 function randomText() {
     fs.readFile('random.txt', 'utf-8', function read(err, data) {
         var dataArr = data.split(",");
-        console.log(dataArr[0]);
-        serach = dataArr[1];
+        randomSearch = dataArr[1];
+        
         switch (dataArr[0]) {
             case "my-tweets":
                 twitterCommand();
