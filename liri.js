@@ -53,7 +53,23 @@ function twitterCommand () {
 
 // If no song is provided then your program will default to "The Sign" by Ace of Base.
 function spotifyCommand () {
+    var trackName;
+    // If the user does not type a search value, default to ace of base - the sign.
+    if(process.argv[3] === undefined){
+        trackName = "the sign"
+    } else {
+        trackName = process.argv[3];
+    };
 
+    var params ={ type: 'track', query: trackName }
+    spotify.search(params, function(err, data) {
+        if (err) {
+        return console.log("Error occurred: "+ err); 
+        }
+        
+        console.log(data); 
+        
+    });
 };
 
 // This will output the following information to your terminal/bash window:
