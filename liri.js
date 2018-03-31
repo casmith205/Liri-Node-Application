@@ -11,100 +11,123 @@ var Spotify = require('node-spotify-api');
 var spotify = new Spotify(keys.spotify);
 
 var userCommand = process.argv[2];
+var randomSearch;
 
-switch(userCommand) {
-	case "my-tweets":
-		twitterCommand();
-		break;
-	case "spotify-this-song":
+switch (userCommand) {
+    case "my-tweets":
+        twitterCommand();
+        break;
+    case "spotify-this-song":
         spotifyCommand();
-		break;
-	case "movie-this":
+        break;
+    case "movie-this":
         movieCommand();
-		break;
-	case "do-what-it-says":
-        log();
-		break;
-	default:
-		console.log('Sorry, I cannot read that commnd. Please try a different one!');
+        break;
+    case "do-what-it-says":
+        randomText();
+        break;
+    default:
+        console.log('Sorry, I cannot read that commnd. Please try a different one!');
 };
 
 // This will show your last 20 tweets and when they were created at in your terminal/bash window.
-function twitterCommand () {
-    var params = {screen_name: 'projectproject4'};
-    client.get('statuses/user_timeline', params, function(error, tweets, response) {
-      if (!error) {
-        for (i=0; i<20 && i<tweets.length; i++){
-            console.log("-----------------------------------------------");
-            console.log("Tweet #" + (i+1));
-            console.log("Tweeted at: " + tweets[i].created_at);
-            console.log(tweets[i].text);
-        };
-      }
+function twitterCommand() {
+    var params = { screen_name: 'projectproject4' };
+    client.get('statuses/user_timeline', params, function (error, tweets, response) {
+        if (!error) {
+            for (i = 0; i < 20 && i < tweets.length; i++) {
+                console.log("-----------------------------------------------");
+                console.log("Tweet #" + (i + 1));
+                console.log("Tweeted at: " + tweets[i].created_at);
+                console.log(tweets[i].text);
+            };
+        }
     });
 
 };
 
 // This will show the following information about the song in your terminal/bash window
-        // Artist(s)
-        // The song's name
-        // A preview link of the song from Spotify
-        // The album that the song is from
-function spotifyCommand () {
+// Artist(s)
+// The song's name
+// A preview link of the song from Spotify
+// The album that the song is from
+function spotifyCommand() {
     var trackName;
     // If the user does not type a search value, default to ace of base - the sign.
-    if(process.argv[3] === undefined){
+    if (process.argv[3] === undefined) {
         trackName = "ace the sign"
+    } else if (search !== undefined) {
+        trackName = search 
     } else {
         trackName = process.argv[3];
     };
 
-    var params ={ type: 'track', query: trackName }
-    spotify.search(params, function(err, data) {
+    var params = { type: 'track', query: trackName }
+    spotify.search(params, function (err, data) {
         if (err) {
-        return console.log("Error occurred: "+ err); 
+            return console.log("Error occurred: " + err);
         }
         console.log("Your search is complete! Let's take a look...")
-        console.log("Artist: " + data.tracks.items[0].artists[0].name); 
-        console.log("Song Name: " + data.tracks.items[0].name); 
-        console.log("Preview Link: " + data.tracks.items[0].href); 
-        console.log("Album: " + data.tracks.items[0].album.name); 
+        console.log("Artist: " + data.tracks.items[0].artists[0].name);
+        console.log("Song Name: " + data.tracks.items[0].name);
+        console.log("Preview Link: " + data.tracks.items[0].href);
+        console.log("Album: " + data.tracks.items[0].album.name);
     });
 };
 
 // This will output the following information to your terminal/bash window:
-        //    * Title of the movie.
-        //    * Year the movie came out.
-        //    * IMDB Rating of the movie.
-        //    * Rotten Tomatoes Rating of the movie.
-        //    * Country where the movie was produced.
-        //    * Language of the movie.
-        //    * Plot of the movie.
-        //    * Actors in the movie.
-function movieCommand () {
-    if(process.argv[3] === undefined){
+//    * Title of the movie.
+//    * Year the movie came out.
+//    * IMDB Rating of the movie.
+//    * Rotten Tomatoes Rating of the movie.
+//    * Country where the movie was produced.
+//    * Language of the movie.
+//    * Plot of the movie.
+//    * Actors in the movie.
+function movieCommand() {
+    if (process.argv[3] === undefined) {
         title = "Mr. Nobody"
+    } else if (search !== undefined) {
+        title = search 
     } else {
         title = process.argv[3];
     };
     // Request info from omdb api
-	request("http://www.omdbapi.com/?t=" + title + "&y=&plot=short&apikey=trilogy", function (error, response, body) {
-		if (!error && response.statusCode === 200) {
+    request("http://www.omdbapi.com/?t=" + title + "&y=&plot=short&apikey=trilogy", function (error, response, body) {
+        if (!error && response.statusCode === 200) {
             console.log("Your search is complete! Let's take a look...")
-            console.log("Title: "+JSON.parse(body).Title);
-            console.log("Year Released: "+JSON.parse(body).Released);
-            console.log("IMDB Rating: "+JSON.parse(body).imdbRating);
-            console.log("Rotten Tomatoes Rating: "+JSON.parse(body).Ratings[1].Value);
-            console.log("Production Location(s): "+JSON.parse(body).Country);
-            console.log("Language: "+JSON.parse(body).Language);
-            console.log("Plot: "+JSON.parse(body).Plot);
-            console.log("Actors: "+JSON.parse(body).Actors);
+            console.log("Title: " + JSON.parse(body).Title);
+            console.log("Year Released: " + JSON.parse(body).Released);
+            console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
+            console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value);
+            console.log("Production Location(s): " + JSON.parse(body).Country);
+            console.log("Language: " + JSON.parse(body).Language);
+            console.log("Plot: " + JSON.parse(body).Plot);
+            console.log("Actors: " + JSON.parse(body).Actors);
         };
     });
 };
 
 // Using the fs Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
 // It should run spotify-this-song for "I Want it That Way," as follows the text in random.txt.
-function log (){
-
-}
+function randomText() {
+    fs.readFile('random.txt', 'utf-8', function read(err, data) {
+        var dataArr = data.split(",");
+        console.log(dataArr[0]);
+        serach = dataArr[1];
+        switch (dataArr[0]) {
+            case "my-tweets":
+                twitterCommand();
+                break;
+	        case "spotify-this-song":
+                spotifyCommand();
+                break;
+            case "movie-this":
+                movieCommand();
+                break;
+            case "do-what-it-says":
+                log();
+                break;
+        };
+    });
+};
