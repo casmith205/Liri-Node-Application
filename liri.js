@@ -34,12 +34,20 @@ switch (userCommand) {
 function twitterCommand() {
     var params = { screen_name: 'projectproject4' };
     client.get('statuses/user_timeline', params, function (error, tweets, response) {
+        log("my-tweets was run and returned the following informtion: ")
         if (!error) {
             for (i = 0; i < 20 && i < tweets.length; i++) {
                 console.log("-----------------------------------------------");
                 console.log("Tweet #" + (i + 1));
                 console.log("Tweeted at: " + tweets[i].created_at);
                 console.log(tweets[i].text);
+                log( 
+                    "\nTweet #" + (i + 1) +
+                    "\nTweeted at: " + tweets[i].created_at+
+                    "\n Tweet Conent:" + tweets[i].text+
+                    "\n------------------------------------------------------------"
+
+                );
             };
         }
     });
@@ -57,7 +65,7 @@ function spotifyCommand() {
     if (process.argv[3] === undefined && randomSearch === undefined) {
         trackName = "ace the sign"
     } else if (randomSearch !== undefined) {
-        trackName = randomSearch 
+        trackName = randomSearch
     } else {
         trackName = process.argv[3];
     };
@@ -72,6 +80,13 @@ function spotifyCommand() {
         console.log("Song Name: " + data.tracks.items[0].name);
         console.log("Preview Link: " + data.tracks.items[0].href);
         console.log("Album: " + data.tracks.items[0].album.name);
+        log("spotify-this-song was run and returned the following informtion: "+
+            "\nArtist: " + data.tracks.items[0].artists[0].name +
+            "\nSong Name: " + data.tracks.items[0].name +
+            "\nPreview Link: " + data.tracks.items[0].href +
+            "\nAlbum: " + data.tracks.items[0].album.name +
+            "\n------------------------------------------------------------"
+        )
     });
 };
 
@@ -104,6 +119,17 @@ function movieCommand() {
             console.log("Language: " + JSON.parse(body).Language);
             console.log("Plot: " + JSON.parse(body).Plot);
             console.log("Actors: " + JSON.parse(body).Actors);
+            log("movie-this was run and returned the following informtion: "+
+                "\nTitle: " + JSON.parse(body).Title +
+                "\nYear Released: " + JSON.parse(body).Released +
+                "\nIMDB Rating: " + JSON.parse(body).imdbRating +
+                "\nRotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value +
+                "\nProduction Location(s): " + JSON.parse(body).Country +
+                "\nLanguage: " + JSON.parse(body).Language +
+                "\nPlot: " + JSON.parse(body).Plot +
+                "\nActors: " + JSON.parse(body).Actors+
+                "\n------------------------------------------------------------"
+            );
         };
     });
 };
@@ -114,12 +140,12 @@ function randomText() {
     fs.readFile('random.txt', 'utf-8', function read(err, data) {
         var dataArr = data.split(",");
         randomSearch = dataArr[1];
-        
+
         switch (dataArr[0]) {
             case "my-tweets":
                 twitterCommand();
                 break;
-	        case "spotify-this-song":
+            case "spotify-this-song":
                 spotifyCommand();
                 break;
             case "movie-this":
@@ -129,5 +155,14 @@ function randomText() {
                 log();
                 break;
         };
+        log("do-what-it-says was run and returned the following informtion: ");
+    });
+};
+
+
+//Function to log parameter into log.txt file
+function log(toAppend) {
+    fs.appendFile('log.txt', toAppend + "\n", function (err) {
+        if (err) throw err;
     });
 };
