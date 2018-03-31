@@ -50,8 +50,6 @@ function twitterCommand () {
         // The song's name
         // A preview link of the song from Spotify
         // The album that the song is from
-
-// If no song is provided then your program will default to "The Sign" by Ace of Base.
 function spotifyCommand () {
     var trackName;
     // If the user does not type a search value, default to ace of base - the sign.
@@ -83,10 +81,26 @@ function spotifyCommand () {
         //    * Language of the movie.
         //    * Plot of the movie.
         //    * Actors in the movie.
-
-// If the user doesn't type a movie in, the program will output data for the movie 'Mr. Nobody.'
 function movieCommand () {
-
+    if(process.argv[3] === undefined){
+        title = "Mr. Nobody"
+    } else {
+        title = process.argv[3];
+    };
+    // Request info from omdb api
+	request("http://www.omdbapi.com/?t=" + title + "&y=&plot=short&apikey=trilogy", function (error, response, body) {
+		if (!error && response.statusCode === 200) {
+            console.log("Your search is complete! Let's take a look...")
+            console.log("Title: "+JSON.parse(body).Title);
+            console.log("Year Released: "+JSON.parse(body).Released);
+            console.log("IMDB Rating: "+JSON.parse(body).imdbRating);
+            console.log("Rotten Tomatoes Rating: "+JSON.parse(body).Ratings[1].Value);
+            console.log("Production Location(s): "+JSON.parse(body).Country);
+            console.log("Language: "+JSON.parse(body).Language);
+            console.log("Plot: "+JSON.parse(body).Plot);
+            console.log("Actors: "+JSON.parse(body).Actors);
+        };
+    });
 };
 
 // Using the fs Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
