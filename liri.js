@@ -37,10 +37,10 @@ function twitterCommand() {
         log("my-tweets was run and returned the following informtion: ")
         if (!error) {
             for (i = 0; i < 20 && i < tweets.length; i++) {
-                console.log("-----------------------------------------------");
-                console.log("Tweet #" + (i + 1));
-                console.log("Tweeted at: " + tweets[i].created_at);
-                console.log(tweets[i].text);
+                console.log("-----------------------------------------------" +
+                    "\nTweet #" + (i + 1) +
+                    "\nTweeted at: " + tweets[i].created_at+
+                    "\n"+tweets[i].text);
                 log( 
                     "\nTweet #" + (i + 1) +
                     "\nTweeted at: " + tweets[i].created_at+
@@ -75,11 +75,11 @@ function spotifyCommand() {
         if (err) {
             return console.log("Error occurred: " + err);
         }
-        console.log("Your search is complete! Let's take a look...")
-        console.log("Artist: " + data.tracks.items[0].artists[0].name);
-        console.log("Song Name: " + data.tracks.items[0].name);
-        console.log("Preview Link: " + data.tracks.items[0].href);
-        console.log("Album: " + data.tracks.items[0].album.name);
+        console.log("Your search is complete! Let's take a look..."+
+            "\nArtist: " + data.tracks.items[0].artists[0].name +
+            "\nSong Name: " + data.tracks.items[0].name +
+            "\nPreview Link: " + data.tracks.items[0].href +
+            "\nAlbum: " + data.tracks.items[0].album.name);
         log("spotify-this-song was run and returned the following informtion: "+
             "\nArtist: " + data.tracks.items[0].artists[0].name +
             "\nSong Name: " + data.tracks.items[0].name +
@@ -110,15 +110,15 @@ function movieCommand() {
     // Request info from omdb api
     request("http://www.omdbapi.com/?t=" + title + "&y=&plot=short&apikey=trilogy", function (error, response, body) {
         if (!error && response.statusCode === 200) {
-            console.log("Your search is complete! Let's take a look...")
-            console.log("Title: " + JSON.parse(body).Title);
-            console.log("Year Released: " + JSON.parse(body).Released);
-            console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
-            console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value);
-            console.log("Production Location(s): " + JSON.parse(body).Country);
-            console.log("Language: " + JSON.parse(body).Language);
-            console.log("Plot: " + JSON.parse(body).Plot);
-            console.log("Actors: " + JSON.parse(body).Actors);
+            console.log("Your search is complete! Let's take a look..." +
+                "\nTitle: " + JSON.parse(body).Title +
+                "\nYear Released: " + JSON.parse(body).Released +
+                "\nIMDB Rating: " + JSON.parse(body).imdbRating +
+                "\nRotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value +
+                "\nProduction Location(s): " + JSON.parse(body).Country +
+                "\nLanguage: " + JSON.parse(body).Language +
+                "\nPlot: " + JSON.parse(body).Plot +
+                "\nActors: " + JSON.parse(body).Actors);
             log("movie-this was run and returned the following informtion: "+
                 "\nTitle: " + JSON.parse(body).Title +
                 "\nYear Released: " + JSON.parse(body).Released +
